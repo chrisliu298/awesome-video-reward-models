@@ -21,17 +21,45 @@ The field now spans three partially overlapping camps:
 
 ## Contents
 
+**Orientation**
+
 - [Quick Start by Goal](#quick-start-by-goal)
 - [Start Here](#start-here)
 - [Taxonomy](#taxonomy)
+
+**Papers**
+
 - [Core Video Reward Model Papers](#core-video-reward-model-papers)
 - [Foundations](#foundations)
+  - [Image reward models and preference data](#image-reward-models-and-preference-data)
+  - [Reward modeling, RLHF, and DPO foundations for diffusion](#reward-modeling-rlhf-and-dpo-foundations-for-diffusion)
+  - [Adjacent video quality assessment foundations](#adjacent-video-quality-assessment-foundations)
 - [General-Purpose Video Reward Models and Judges](#general-purpose-video-reward-models-and-judges)
+  - [Early generation-specific evaluators](#early-generation-specific-evaluators)
+  - [Large-scale and fine-grained judges](#large-scale-and-fine-grained-judges)
 - [Preference Optimization and Post-Training](#preference-optimization-and-post-training)
+  - [Reward-weighted or gradient-based finetuning](#reward-weighted-or-gradient-based-finetuning)
+  - [DPO / IPO / GRPO and related preference optimization](#dpo--ipo--grpo-and-related-preference-optimization)
 - [Localized, Structured, and Reasoning-Based Rewards](#localized-structured-and-reasoning-based-rewards)
+  - [Structured and decomposed rewards](#structured-and-decomposed-rewards)
+  - [Localized and detail-aware optimization](#localized-and-detail-aware-optimization)
+  - [Reasoning-based judges](#reasoning-based-judges)
+  - [Training-free and decomposed critics](#training-free-and-decomposed-critics)
 - [Physics, World, and Geometry Rewards](#physics-world-and-geometry-rewards)
+  - [Benchmarks and problem framing](#benchmarks-and-problem-framing)
+  - [Physics-aware optimization](#physics-aware-optimization)
+  - [World and geometry critics](#world-and-geometry-critics)
 - [Editing, Identity, Camera, and Domain-Specific Rewards](#editing-identity-camera-and-domain-specific-rewards)
+  - [Video editing](#video-editing)
+  - [Identity preservation](#identity-preservation)
+  - [Camera control](#camera-control)
+  - [Domain-specific alignment](#domain-specific-alignment)
 - [Inference-Time Reward, Search, and Process Rewards](#inference-time-reward-search-and-process-rewards)
+  - [Reward-guided inference](#reward-guided-inference)
+  - [Latent search and process rewards](#latent-search-and-process-rewards)
+
+**Resources**
+
 - [Datasets and Benchmarks](#datasets-and-benchmarks)
 - [Evaluation Suites and Stress Tests](#evaluation-suites-and-stress-tests)
 - [Project Pages, Repos, and Useful Links](#project-pages-repos-and-useful-links)
@@ -203,16 +231,27 @@ Papers whose main contribution is using reward or preference signals to align a 
 
 Reward designs that try to move past a single opaque scalar score.
 
+### Structured and decomposed rewards
+
 - [VisionReward: Fine-Grained Multi-Dimensional Human Preference Learning for Image and Video Generation](https://arxiv.org/abs/2412.21059) (2024) — Decomposes reward into multiple dimensions and binary judgment questions.
 - [MJ-VIDEO: Fine-Grained Benchmarking and Rewarding Video Preferences in Video Generation](https://arxiv.org/abs/2502.01719) (2025) — MoE-based aspect routing over five aspects and 28 criteria.
 - [Harness Local Rewards for Global Benefits: Effective Text-to-Video Generation Alignment with Patch-level Reward Models](https://arxiv.org/abs/2502.06812) (2025) — Local patch-level rewards for fine defects that global reward misses.
 - [DenseDPO: Fine-Grained Temporal Preference Optimization for Video Diffusion Models](https://arxiv.org/abs/2506.03517) (2025) — Segment-level preference supervision over time.
-- [Mind the Generative Details: Direct Localized Detail Preference Optimization for Video Diffusion Models](https://arxiv.org/abs/2601.04068) (2026) — Localized detail-aware DPO with region-sensitive comparisons.
-- [Thinking with Frames: Generative Video Distortion Evaluation via Frame Reward Model](https://arxiv.org/abs/2601.04033) (2026) — REACT; frame-level reasoning model for structural distortions.
-- [Diffusion-DRF: Differentiable Reward Flow for Video Diffusion Fine-Tuning](https://arxiv.org/abs/2601.04153) (2026) — Training-free critic from decomposed VLM questions and explanations.
 - [RewardDance: Reward Scaling in Visual Generation](https://arxiv.org/abs/2509.08826) (2025) — Studies reward scaling and judge robustness with larger generative VLMs.
+
+### Localized and detail-aware optimization
+
+- [Mind the Generative Details: Direct Localized Detail Preference Optimization for Video Diffusion Models](https://arxiv.org/abs/2601.04068) (2026) — Localized detail-aware DPO with region-sensitive comparisons.
+
+### Reasoning-based judges
+
 - [VideoScore2: Think before You Score in Generative Video Evaluation](https://arxiv.org/abs/2509.22799) (2025) — Chain-of-thought reward modeling with explicit sub-scores.
 - [VR-Thinker: Boosting Video Reward Models through Thinking-with-Image Reasoning](https://arxiv.org/abs/2510.10518) (2025) — Frame selection, visual memory, and reasoning supervision.
+- [Thinking with Frames: Generative Video Distortion Evaluation via Frame Reward Model](https://arxiv.org/abs/2601.04033) (2026) — REACT; frame-level reasoning model for structural distortions.
+
+### Training-free and decomposed critics
+
+- [Diffusion-DRF: Differentiable Reward Flow for Video Diffusion Fine-Tuning](https://arxiv.org/abs/2601.04153) (2026) — Training-free critic from decomposed VLM questions and explanations.
 - [Human detectors are surprisingly powerful reward models](https://arxiv.org/abs/2601.14037) (2026) — HuDA; specialized human detectors as simple but strong reward models.
 
 ## Physics, World, and Geometry Rewards
@@ -244,27 +283,43 @@ Reward papers where “better” means more physically or geometrically consiste
 
 Reward models are still sparse outside generic T2V. These papers are especially useful if you work on specialized generation settings.
 
+### Video editing
+
 - [TDVE-Assessor: Benchmarking and Evaluating the Quality of Text-Driven Video Editing with LMMs](https://arxiv.org/abs/2505.19535) (2025) — Benchmark and judge model for text-driven video editing.
-- [Aligning Anime Video Generation with Human Feedback](https://arxiv.org/abs/2504.10044) (2025) — Domain-specific preference learning for anime video generation.
+- [Prompt-A-Video: Prompt Your Video Diffusion Model via Preference-Aligned LLM](https://arxiv.org/abs/2412.15156) (2024) — Upstream prompt rewriting using preference signals.
+
+### Identity preservation
+
 - [Identity-Preserving Image-to-Video Generation via Reward-Guided Optimization](https://arxiv.org/abs/2510.14255) (2025) — Facial identity reward for I2V generation.
 - [Identity-GRPO: Optimizing Multi-Human Identity-preserving Video Generation via Reinforcement Learning](https://arxiv.org/abs/2510.14256) (2025) — Identity-aware reward model and GRPO for multi-person videos.
 - [HuViDPO: Enhancing Video Generation through Direct Preference Optimization for Human-Centric Alignment](https://arxiv.org/abs/2502.01690) (2025) — Human-centric alignment setting.
+
+### Camera control
+
 - [CamPilot: Improving Camera Control in Video Diffusion Model with Efficient Camera Reward Feedback](https://arxiv.org/abs/2601.16214) (2026) — Camera-control-specific reward modeling.
-- [Prompt-A-Video: Prompt Your Video Diffusion Model via Preference-Aligned LLM](https://arxiv.org/abs/2412.15156) (2024) — Upstream prompt rewriting using preference signals.
+
+### Domain-specific alignment
+
+- [Aligning Anime Video Generation with Human Feedback](https://arxiv.org/abs/2504.10044) (2025) — Domain-specific preference learning for anime video generation.
 
 ## Inference-Time Reward, Search, and Process Rewards
 
 Not all reward models are only for post-training; some are most useful at test time or over latent trajectories.
 
+### Reward-guided inference
+
 - [Improving Video Generation with Human Feedback](https://arxiv.org/abs/2501.13918) (2025) — Includes Flow-NRG, an inference-time reward-guided generation strategy.
 - [DOLLAR: Few-Step Video Generation via Distillation and Latent Reward Optimization](https://arxiv.org/abs/2412.15689) (2024) — Latent reward optimization for efficient few-step video generation.
+- [Inference-time Physics Alignment of Video Generative Models with Latent World Models](https://arxiv.org/abs/2601.10553) (2026) — WMReward as a pure inference-time verifier.
+- [VIGOR: VIdeo Geometry-Oriented Reward for Temporal Generative Alignment](https://arxiv.org/abs/2603.16271) (2026) — Can be used for both post-training and inference-time selection.
 - [PISCES: Annotation-free Text-to-Video Post-Training via Optimal Transport-Aligned Rewards](https://arxiv.org/abs/2602.01624) (2026) — Annotation-free reward shaping via OT-aligned rewards.
+- [Diffusion-DRF: Differentiable Reward Flow for Video Diffusion Fine-Tuning](https://arxiv.org/abs/2601.04153) (2026) — Dense VLM supervision without collecting new preference labels.
+
+### Latent search and process rewards
+
 - [Video Generation Models Are Good Latent Reward Models](https://arxiv.org/abs/2511.21541) (2025) — Process Reward Feedback Learning (PRFL) in the generator’s latent space.
 - [Euphonium: Steering Video Flow Matching via Process Reward Gradient Guided Stochastic Dynamics](https://arxiv.org/abs/2602.04928) (2026) — Couples process rewards with stochastic flow guidance.
 - [LatSearch: Latent Reward-Guided Search for Faster Inference-Time Scaling in Video Diffusion](https://arxiv.org/abs/2603.14526) (2026) — Search and pruning in latent space using reward estimates.
-- [Inference-time Physics Alignment of Video Generative Models with Latent World Models](https://arxiv.org/abs/2601.10553) (2026) — WMReward as a pure inference-time verifier.
-- [VIGOR: VIdeo Geometry-Oriented Reward for Temporal Generative Alignment](https://arxiv.org/abs/2603.16271) (2026) — Can be used for both post-training and inference-time selection.
-- [Diffusion-DRF: Differentiable Reward Flow for Video Diffusion Fine-Tuning](https://arxiv.org/abs/2601.04153) (2026) — Dense VLM supervision without collecting new preference labels.
 
 ## Datasets and Benchmarks
 
