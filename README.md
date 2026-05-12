@@ -413,7 +413,7 @@ If you find this resource useful, please cite it as:
 ```bibtex
 @software{awesome-video-reward-models,
   title = {{Awesome Video Reward Models}},
-  author = {Liu, Chris Yuhao},
+  author = {Liu, Chris Yuhao and others},
   year = {2026},
   url = {https://github.com/chrisliu298/awesome-video-reward-models},
   version = {v1.0.0}
