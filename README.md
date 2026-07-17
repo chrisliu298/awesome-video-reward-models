@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <!-- entry-count-start --><a href="#contents"><img src="https://img.shields.io/badge/Entries-125-000000?style=for-the-badge&labelColor=000000" alt="Entries"></a><!-- entry-count-end -->
+  <!-- entry-count-start --><a href="#contents"><img src="https://img.shields.io/badge/Entries-127-000000?style=for-the-badge&labelColor=000000" alt="Entries"></a><!-- entry-count-end -->
   <a href="https://github.com/chrisliu298/awesome-video-reward-models/stargazers"><img src="https://img.shields.io/github/stars/chrisliu298/awesome-video-reward-models?style=for-the-badge&logo=github&logoColor=white&label=Stars&labelColor=000000&color=000000" alt="GitHub Stars"></a>
   <a href="https://github.com/chrisliu298/awesome-video-reward-models/network/members"><img src="https://img.shields.io/github/forks/chrisliu298/awesome-video-reward-models?style=for-the-badge&logo=github&logoColor=white&label=Forks&labelColor=000000&color=000000" alt="GitHub Forks"></a>
   <a href="https://github.com/chrisliu298/awesome-video-reward-models/commits"><img src="https://img.shields.io/github/last-commit/chrisliu298/awesome-video-reward-models?style=for-the-badge&logo=github&logoColor=white&label=Last%20Commit&labelColor=000000&color=000000" alt="Last Commit"></a>
@@ -197,6 +197,7 @@ Evaluator-first papers that either are used directly as reward functions or defi
 - [Unified Reward Model for Multimodal Understanding and Generation](https://arxiv.org/abs/2503.05236) *(2025)* — Joint reward modeling across understanding and generation tasks, including video.
 - [VideoScore2: Think before You Score in Generative Video Evaluation](https://arxiv.org/abs/2509.22799) *(2025)* — Reasoning-based, interpretable multi-dimensional judge.
 - [VR-Thinker: Boosting Video Reward Models through Thinking-with-Image Reasoning](https://arxiv.org/abs/2510.10518) *(2025)* — Memory-based visual reasoning for stronger reward prediction.
+- [SoliReward: Mitigating Susceptibility to Reward Hacking and Annotation Noise in Video Generation Reward Models](https://arxiv.org/abs/2512.22170) *(2025)* — VLM-based video reward model hardened against reward hacking and annotation noise via cross-prompt binary annotations and a win-tie Bradley-Terry objective.
 
 ## Preference Optimization and Post-Training
 
@@ -211,6 +212,7 @@ Papers whose main contribution is using reward or preference signals to align a 
 - [Improving Dynamic Object Interactions in Text-to-Video Generation with AI Feedback](https://arxiv.org/abs/2412.02617) *(2024)* — Uses AI feedback to improve difficult object interactions and physical motion.
 - [LiFT: Leveraging Human Feedback for Text-to-Video Model Alignment](https://arxiv.org/abs/2412.04814) *(2024)* — Human ratings + rationales for reward-based alignment.
 - [Prompt-A-Video: Prompt Your Video Diffusion Model via Preference-Aligned LLM](https://arxiv.org/abs/2412.15156) *(2024)* — Reward-guided prompt evolution rather than direct generator alignment.
+- [Reward Forcing: Efficient Streaming Video Generation with Rewarded Distribution Matching Distillation](https://arxiv.org/abs/2512.04678) *(2025)* — Reward-guided distribution-matching distillation for streaming video generation, using a VLM reward to bias the few-step student toward high-motion samples.
 - [Reward-Forcing: Autoregressive Video Generation with Reward Feedback](https://arxiv.org/abs/2601.16933) *(2026)* — Brings reward-guided optimization to autoregressive video generation.
 
 ### DPO / IPO / GRPO and related preference optimization
@@ -419,4 +421,4 @@ Contributions welcome! Please open a PR if you know of papers, datasets, benchma
 
 ---
 
-*Last updated: 2026-04-05. Coverage: core video reward model papers, foundations, preference optimization, physics and world rewards, datasets, benchmarks, and tooling through April 2026.*
+*Last updated: 2026-07-17. Coverage: core video reward model papers, foundations, preference optimization, physics and world rewards, datasets, benchmarks, and tooling through April 2026.*
