@@ -79,7 +79,7 @@ Links to repos, leaderboards, and adjacent collections.
 ## Entry format
 
 ```
-- [Full Paper Title](url) (Year) — One-line description.
+- [Full Paper Title](url) *(Year)* — One-line description.
 ```
 
 The description should be a single terse sentence capturing what makes this paper distinctive. Look at existing entries for calibration.
