@@ -70,7 +70,7 @@ The field now spans three partially overlapping camps:
 |---|---|---|
 | New to the area | [VideoScore](https://arxiv.org/abs/2406.15252), [Improving Video Generation with Human Feedback](https://arxiv.org/abs/2501.13918) | [MJ-VIDEO](https://arxiv.org/abs/2502.01719), [VisionReward](https://arxiv.org/abs/2412.21059), [VideoScore2](https://arxiv.org/abs/2509.22799) |
 | Building a reusable judge | [AIGV-Assessor](https://arxiv.org/abs/2411.17221), [VisionReward](https://arxiv.org/abs/2412.21059), [VideoReward](https://arxiv.org/abs/2501.13918) | [Q-Eval-100K](https://arxiv.org/abs/2503.02357), [LOVE](https://arxiv.org/abs/2505.12098), [VR-Thinker](https://arxiv.org/abs/2510.10518) |
-| Aligning a T2V model with preferences | [InstructVideo](https://arxiv.org/abs/2312.12490), [VideoDPO](https://arxiv.org/abs/2412.14167), [DanceGRPO](https://arxiv.org/abs/2505.07818) | [OnlineVPO](https://arxiv.org/abs/2412.15159), [Dual-IPO](https://arxiv.org/abs/2502.02088), [Reg-DPO](https://arxiv.org/abs/2511.01450) |
+| Aligning a T2V model with preferences | [InstructVideo](https://arxiv.org/abs/2312.12490), [VideoDPO](https://arxiv.org/abs/2412.14167), [DanceGRPO](https://arxiv.org/abs/2505.07818) | [OnlineVPO](https://arxiv.org/abs/2412.15159), [Dual-IPO](https://arxiv.org/abs/2502.02088), [DenseDPO](https://arxiv.org/abs/2506.03517) |
 | Fixing local artifacts and temporal defects | [Patch-level Reward Models](https://arxiv.org/abs/2502.06812), [DenseDPO](https://arxiv.org/abs/2506.03517), [REACT](https://arxiv.org/abs/2601.04033) | [Mind the Generative Details](https://arxiv.org/abs/2601.04068), [VideoScore2](https://arxiv.org/abs/2509.22799) |
 | Working on physics or world consistency | [PISA](https://arxiv.org/abs/2503.09595), [VideoPhy-2](https://arxiv.org/abs/2503.06800), [WMReward](https://arxiv.org/abs/2601.10553) | [VIGOR](https://arxiv.org/abs/2603.16271), [PhysHPO](https://arxiv.org/abs/2508.10858), [VGGRPO](https://arxiv.org/abs/2603.26599) |
 | Working on editing, identity, or control | [TDVE-Assessor](https://arxiv.org/abs/2505.19535), [Identity-GRPO](https://arxiv.org/abs/2510.14256), [CamPilot](https://arxiv.org/abs/2601.16214) | [Aligning Anime Video Generation with Human Feedback](https://arxiv.org/abs/2504.10044), [Prompt-A-Video](https://arxiv.org/abs/2412.15156) |
@@ -84,7 +84,7 @@ The fastest reading path through the area:
 2. **First widely reused open video evaluator** — [VideoScore](https://arxiv.org/abs/2406.15252). The standard starting baseline for human-aligned video scoring.
 3. **Modern open reward model + alignment stack** — [Improving Video Generation with Human Feedback](https://arxiv.org/abs/2501.13918). Introduces VideoReward, VideoGen-RewardBench, and Flow-DPO / Flow-RWR / Flow-NRG.
 4. **Fine-grained multi-criterion reward modeling** — [MJ-VIDEO](https://arxiv.org/abs/2502.01719) and [VisionReward](https://arxiv.org/abs/2412.21059). These are the clearest examples of decomposed reward design.
-5. **Preference optimization for video generators** — [VideoDPO](https://arxiv.org/abs/2412.14167), [OnlineVPO](https://arxiv.org/abs/2412.15159), [DenseDPO](https://arxiv.org/abs/2506.03517), and [Reg-DPO](https://arxiv.org/abs/2511.01450).
+5. **Preference optimization for video generators** — [VideoDPO](https://arxiv.org/abs/2412.14167), [OnlineVPO](https://arxiv.org/abs/2412.15159), and [DenseDPO](https://arxiv.org/abs/2506.03517).
 6. **Reasoning-based judges** — [VideoScore2](https://arxiv.org/abs/2509.22799), [VR-Thinker](https://arxiv.org/abs/2510.10518), and [REACT](https://arxiv.org/abs/2601.04033). The reward model itself becomes a reasoning system.
 7. **Physics and world consistency** — [PISA](https://arxiv.org/abs/2503.09595), [VideoPhy-2](https://arxiv.org/abs/2503.06800), [WMReward](https://arxiv.org/abs/2601.10553), [VIGOR](https://arxiv.org/abs/2603.16271), and [PhysHPO](https://arxiv.org/abs/2508.10858).
 8. **Specialized settings** — [TDVE-Assessor](https://arxiv.org/abs/2505.19535) for editing, [Identity-GRPO](https://arxiv.org/abs/2510.14256) for multi-human identity, and [CamPilot](https://arxiv.org/abs/2601.16214) for camera control.
@@ -198,6 +198,8 @@ Evaluator-first papers that either are used directly as reward functions or defi
 - [VideoScore2: Think before You Score in Generative Video Evaluation](https://arxiv.org/abs/2509.22799) *(2025)* — Reasoning-based, interpretable multi-dimensional judge.
 - [VR-Thinker: Boosting Video Reward Models through Thinking-with-Image Reasoning](https://arxiv.org/abs/2510.10518) *(2025)* — Memory-based visual reasoning for stronger reward prediction.
 - [SoliReward: Mitigating Susceptibility to Reward Hacking and Annotation Noise in Video Generation Reward Models](https://arxiv.org/abs/2512.22170) *(2025)* — VLM-based video reward model hardened against reward hacking and annotation noise via cross-prompt binary annotations and a win-tie Bradley-Terry objective.
+- [AesRM: Improving Video Aesthetics with Expert-Level Feedback](https://arxiv.org/abs/2604.28078) *(2026)* — Video aesthetic reward models (base + chain-of-thought variants) trained on expert-annotated preferences with a dedicated benchmark; applied to SFT, GRPO, and process rewards.
+- [GT-SVJ: Generative-Transformer-Based Self-Supervised Video Judge For Efficient Video Reward Modeling](https://arxiv.org/abs/2602.05202) *(2026)* — Repurposes a video generator as an energy-based judge (low energy for high-quality videos), trained self-supervised on synthetic degraded videos instead of a VLM.
 
 ## Preference Optimization and Post-Training
 
@@ -221,10 +223,11 @@ Papers whose main contribution is using reward or preference signals to align a 
 - [OnlineVPO: Align Video Diffusion Model with Online Video-Centric Preference Optimization](https://arxiv.org/abs/2412.15159) *(2024)* — Online preference optimization with refreshed comparisons.
 - [HuViDPO: Enhancing Video Generation through Direct Preference Optimization for Human-Centric Alignment](https://arxiv.org/abs/2502.01690) *(2025)* — Human-centric specialization of DPO.
 - [Dual-IPO: Dual-Iterative Preference Optimization for Text-to-Video Generation](https://arxiv.org/abs/2502.02088) *(2025)* — Co-evolves generator and reward model iteratively.
-- [Discriminator-Free Direct Preference Optimization for Video Diffusion](https://arxiv.org/abs/2504.08542) *(2025)* — Uses real-vs-distorted or real-vs-generated comparisons without a separate discriminator.
+- [Discriminator-Free Direct Preference Optimization for Video Diffusion](https://arxiv.org/abs/2504.08542) *(2025)* — Uses real-vs-distorted or real-vs-generated comparisons without a separate discriminator. *(arXiv admin note: text overlap with VideoDPO, [arXiv:2412.14167](https://arxiv.org/abs/2412.14167), by other authors.)*
 - [DenseDPO: Fine-Grained Temporal Preference Optimization for Video Diffusion Models](https://arxiv.org/abs/2506.03517) *(2025)* — Dense temporal labeling instead of one judgment per full video.
-- [Reg-DPO: SFT-Regularized Direct Preference Optimization with GT-Pair for Improving Video Generation](https://arxiv.org/abs/2511.01450) *(2025)* — Ground-truth-positive pairs and SFT regularization for stability.
+- [Reg-DPO: SFT-Regularized Direct Preference Optimization with GT-Pair for Improving Video Generation](https://arxiv.org/abs/2511.01450) *(2025)* — **⚠️ Withdrawn on arXiv (authors: results require further verification); retained for completeness, not recommended.** Proposed ground-truth-positive pairs and SFT regularization for stability.
 - [DanceGRPO: Unleashing GRPO on Visual Generation](https://arxiv.org/abs/2505.07818) *(2025)* — General online RL / GRPO framework applied to T2V and I2V.
+- [Rethinking Reward Signals in Video GRPO: When Scores Become Targets](https://arxiv.org/abs/2511.19356) *(2025)* — TaRoS; diagnoses reward saturation, component shortcuts, and within-group ranking collapse (Goodhart) in video GRPO, and adaptively downweights saturated reward components.
 - [V.I.P.: Iterative Online Preference Distillation for Efficient Video Diffusion Models](https://arxiv.org/abs/2508.03254) *(2025)* — Online preference distillation for efficient student models.
 
 ## Localized, Structured, and Reasoning-Based Rewards
@@ -242,6 +245,7 @@ Reward designs that try to move past a single opaque scalar score.
 ### Localized and detail-aware optimization
 
 - [Mind the Generative Details: Direct Localized Detail Preference Optimization for Video Diffusion Models](https://arxiv.org/abs/2601.04068) *(2026)* — Localized detail-aware DPO with region-sensitive comparisons.
+- [CaC: Advancing Video Reward Models via Hierarchical Spatiotemporal Concentrating](https://arxiv.org/abs/2605.11723) *(2026)* — Coarse-to-fine spatiotemporal concentrating (temporal scan then spatial grounding) for localized, anomaly-aware video reward modeling.
 
 ### Reasoning-based judges
 
@@ -251,7 +255,7 @@ Reward designs that try to move past a single opaque scalar score.
 
 ### Training-free and decomposed critics
 
-- [Diffusion-DRF: Differentiable Reward Flow for Video Diffusion Fine-Tuning](https://arxiv.org/abs/2601.04153) *(2026)* — Training-free critic from decomposed VLM questions and explanations.
+- [Diffusion-DRF: Free, Rich, and Differentiable Reward for Video Diffusion Fine-Tuning](https://arxiv.org/abs/2601.04153) *(2026)* — Reward-model-training-free (a frozen VLM supplies the dense signal) but still fine-tunes the generator; decomposes each prompt into freeform dense VQA questions.
 - [Human detectors are surprisingly powerful reward models](https://arxiv.org/abs/2601.14037) *(2026)* — HuDA; specialized human detectors as simple but strong reward models.
 
 ## Physics, World, and Geometry Rewards
@@ -301,6 +305,7 @@ Reward models are still sparse outside generic T2V. These papers are especially 
 ### Domain-specific alignment
 
 - [Aligning Anime Video Generation with Human Feedback](https://arxiv.org/abs/2504.10044) *(2025)* — Domain-specific preference learning for anime video generation.
+- [EVA: Aligning Video World Models with Executable Robot Actions via Inverse Dynamics Rewards](https://arxiv.org/abs/2603.17808) *(2026)* — Uses an inverse-dynamics model as an executability reward to align generated robot videos with physically feasible actions (RL post-training).
 
 ## Inference-Time Reward, Search, and Process Rewards
 
@@ -312,8 +317,8 @@ Not all reward models are only for post-training; some are most useful at test t
 - [DOLLAR: Few-Step Video Generation via Distillation and Latent Reward Optimization](https://arxiv.org/abs/2412.15689) *(2024)* — Latent reward optimization for efficient few-step video generation.
 - [Inference-time Physics Alignment of Video Generative Models with Latent World Models](https://arxiv.org/abs/2601.10553) *(2026)* — WMReward as a pure inference-time verifier.
 - [VIGOR: VIdeo Geometry-Oriented Reward for Temporal Generative Alignment](https://arxiv.org/abs/2603.16271) *(2026)* — Can be used for both post-training and inference-time selection.
-- [PISCES: Annotation-free Text-to-Video Post-Training via Optimal Transport-Aligned Rewards](https://arxiv.org/abs/2602.01624) *(2026)* — Annotation-free reward shaping via OT-aligned rewards.
-- [Diffusion-DRF: Differentiable Reward Flow for Video Diffusion Fine-Tuning](https://arxiv.org/abs/2601.04153) *(2026)* — Dense VLM supervision without collecting new preference labels.
+- [PISCES: Annotation-free Text-to-Video Post-Training via Optimal Transport-Aligned Rewards](https://arxiv.org/abs/2602.01624) *(2026)* — Annotation-free **post-training** (direct reward backprop and RL), not only inference-time; optimal-transport-aligned semantic and quality rewards.
+- [Diffusion-DRF: Free, Rich, and Differentiable Reward for Video Diffusion Fine-Tuning](https://arxiv.org/abs/2601.04153) *(2026)* — Dense VLM supervision without collecting new preference labels.
 
 ### Latent search and process rewards
 
@@ -341,6 +346,7 @@ Not all reward models are only for post-training; some are most useful at test t
 | **TDVE-DB** | Editing benchmark with human ratings for text-driven video editing | [TDVE-Assessor](https://arxiv.org/abs/2505.19535) |
 | **VideoFeedback2** | Scores + reasoning traces for reward-model training | [VideoScore2](https://arxiv.org/abs/2509.22799) |
 | **PhyVidGen-135K** | Physics-oriented synthetic preference data | [PhyGDPO](https://arxiv.org/abs/2512.24551) |
+| **SafeSora** | 14.7K prompts, ~57K videos, ~51.7K human preference pairs over helpfulness + harmlessness (safety) | [SafeSora](https://arxiv.org/abs/2406.14477) |
 
 ### Reward-ready evaluation datasets and benchmarks
 
@@ -421,4 +427,4 @@ Contributions welcome! Please open a PR if you know of papers, datasets, benchma
 
 ---
 
-*Last updated: 2026-07-17. Coverage: core video reward model papers, foundations, preference optimization, physics and world rewards, datasets, benchmarks, and tooling through April 2026.*
+*Repository last updated: 2026-07-17. Literature systematically searched through April 2026; later papers added opportunistically. Coverage: core video reward model papers, foundations, preference optimization, physics and world rewards, datasets, benchmarks, and tooling.*
