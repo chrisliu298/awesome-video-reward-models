@@ -5,8 +5,8 @@ type: software
 authors:
   - family-names: "Liu"
     given-names: "Chris Yuhao"
-repository-code: "https://github.com/chrisliu298/awesome-video-reward-models"
-url: "https://github.com/chrisliu298/awesome-video-reward-models"
+repository-code: "https://github.com/chrisliu298/awesome-rm-for-video-generation"
+url: "https://github.com/chrisliu298/awesome-rm-for-video-generation"
 abstract: "A curated collection of papers, datasets, benchmarks, and code for video reward models used to evaluate, rank, filter, or align video generation models."
 license: "CC0-1.0"
 doi: "10.5281/zenodo.21416545"
