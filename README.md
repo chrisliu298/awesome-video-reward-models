@@ -1,7 +1,7 @@
-# 🎬 Awesome Video Reward Models
+# 🎬 Awesome Reward Models for Video Generation
 
 <p align="center">
-  <a href="https://awesome.re"><img src="https://img.shields.io/badge/Awesome-%F0%9F%8E%AC_Video_Reward_Models-000000?style=for-the-badge&labelColor=000000" alt="Awesome Video Reward Models"></a>
+  <a href="https://awesome.re"><img src="https://img.shields.io/badge/Awesome-%F0%9F%8E%AC_Reward_Models_for_Video_Generation-000000?style=for-the-badge&labelColor=000000" alt="Awesome Reward Models for Video Generation"></a>
 </p>
 
 <p align="center">
@@ -500,7 +500,7 @@ Contributions welcome! Please open a PR if you know of papers, datasets, benchma
 
 ```bibtex
 @software{awesome-rm-for-video-generation,
-  title = {{Awesome Video Reward Models}},
+  title = {{Awesome Reward Models for Video Generation}},
   author = {Liu, Chris Yuhao and others},
   year = {2026},
   doi = {10.5281/zenodo.21416545},
