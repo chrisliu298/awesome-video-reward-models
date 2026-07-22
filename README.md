@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <!-- entry-count-start --><a href="#contents"><img src="https://img.shields.io/badge/Entries-217-000000?style=for-the-badge&labelColor=000000" alt="Entries"></a><!-- entry-count-end -->
+  <!-- entry-count-start --><a href="#contents"><img src="https://img.shields.io/badge/Entries-219-000000?style=for-the-badge&labelColor=000000" alt="Entries"></a><!-- entry-count-end -->
   <a href="https://github.com/chrisliu298/awesome-rm-for-video-generation/stargazers"><img src="https://img.shields.io/github/stars/chrisliu298/awesome-rm-for-video-generation?style=for-the-badge&logo=github&logoColor=white&label=Stars&labelColor=000000&color=000000" alt="GitHub Stars"></a>
   <a href="https://github.com/chrisliu298/awesome-rm-for-video-generation/network/members"><img src="https://img.shields.io/github/forks/chrisliu298/awesome-rm-for-video-generation?style=for-the-badge&logo=github&logoColor=white&label=Forks&labelColor=000000&color=000000" alt="GitHub Forks"></a>
   <a href="https://github.com/chrisliu298/awesome-rm-for-video-generation/commits"><img src="https://img.shields.io/github/last-commit/chrisliu298/awesome-rm-for-video-generation?style=for-the-badge&logo=github&logoColor=white&label=Last%20Commit&labelColor=000000&color=000000" alt="Last Commit"></a>
@@ -19,9 +19,11 @@ This repository covers text-to-video, image-to-video, and text-driven video edit
 
 The field now spans three partially overlapping camps:
 
-1. **Learned reward and judge models** trained from human scores, pairwise preferences, or synthetic supervision.
-2. **Reward-guided training methods** that use those models for RLHF, DPO, GRPO, reranking, or reward backpropagation.
-3. **Benchmark and evaluator papers** whose metrics are routinely reused as practical rewards or selection criteria for video generation.
+1. **Reward, judge, and scoring models** — learned from human scores, pairwise/listwise preferences, AI feedback, or synthetic supervision; *or* frozen/pretrained critics, programmatic verifiers, and self-supervised scorers that evaluate a generated video without a preference-trained reward model.
+2. **Reward-guided training and search methods** that use those signals for RLHF, DPO/IPO, GRPO, RLVR, reranking, reward backpropagation, or inference-time guidance.
+3. **Benchmark and evaluator papers** whose metrics or verifiers are routinely reused as practical rewards or selection criteria for video generation.
+
+Reward *signals* here span a spectrum, not just Bradley-Terry preference: **pairwise/listwise preference, pointwise regression / MOS, classification / defect detection, verifiable / rule-based (RLVR), frozen or training-free critics, and energy-based / self-supervised judges.** The [Taxonomy](#taxonomy) makes this construction axis first-class.
 
 **New to the area?** Read [Start Here](#start-here). **Picking a model or dataset?** Jump to [Quick Start by Goal](#quick-start-by-goal).
 
@@ -38,8 +40,9 @@ The field now spans three partially overlapping camps:
 - [General-Purpose Video Reward Models and Judges](#general-purpose-video-reward-models-and-judges)
   - [Early generation-specific evaluators](#early-generation-specific-evaluators)
   - [Large-scale and fine-grained judges](#large-scale-and-fine-grained-judges)
-- [Preference Optimization and Post-Training](#preference-optimization-and-post-training)
+- [Reward-Guided Optimization and Post-Training](#reward-guided-optimization-and-post-training)
   - [Reward-weighted or gradient-based finetuning](#reward-weighted-or-gradient-based-finetuning)
+  - [Data filtering, curation, and hard-example mining](#data-filtering-curation-and-hard-example-mining)
   - [DPO / IPO / GRPO and related preference optimization](#dpo--ipo--grpo-and-related-preference-optimization)
 - [Localized, Structured, and Reasoning-Based Rewards](#localized-structured-and-reasoning-based-rewards)
   - [Structured and decomposed rewards](#structured-and-decomposed-rewards)
@@ -73,6 +76,7 @@ The field now spans three partially overlapping camps:
 | Aligning a T2V model with preferences | [InstructVideo](https://arxiv.org/abs/2312.12490), [VideoDPO](https://arxiv.org/abs/2412.14167), [DanceGRPO](https://arxiv.org/abs/2505.07818) | [OnlineVPO](https://arxiv.org/abs/2412.15159), [Dual-IPO](https://arxiv.org/abs/2502.02088), [DenseDPO](https://arxiv.org/abs/2506.03517) |
 | Fixing local artifacts and temporal defects | [Patch-level Reward Models](https://arxiv.org/abs/2502.06812), [DenseDPO](https://arxiv.org/abs/2506.03517), [REACT](https://arxiv.org/abs/2601.04033) | [Mind the Generative Details](https://arxiv.org/abs/2601.04068), [VideoScore2](https://arxiv.org/abs/2509.22799) |
 | Working on physics or world consistency | [PISA](https://arxiv.org/abs/2503.09595), [VideoPhy-2](https://arxiv.org/abs/2503.06800), [WMReward](https://arxiv.org/abs/2601.10553) | [VIGOR](https://arxiv.org/abs/2603.16271), [PhysHPO](https://arxiv.org/abs/2508.10858), [VGGRPO](https://arxiv.org/abs/2603.26599) |
+| Building verifiable / rule-based rewards or non-learned critics | [Wan-R1](https://arxiv.org/abs/2603.27866), [NewtonRewards](https://arxiv.org/abs/2512.00425), [VIGOR](https://arxiv.org/abs/2603.16271) | [CamVerse](https://arxiv.org/abs/2512.02870), [GT-SVJ](https://arxiv.org/abs/2602.05202), [Diffusion-DRF](https://arxiv.org/abs/2601.04153) |
 | Working on editing, identity, or control | [TDVE-Assessor](https://arxiv.org/abs/2505.19535), [Identity-GRPO](https://arxiv.org/abs/2510.14256), [CamPilot](https://arxiv.org/abs/2601.16214) | [Aligning Anime Video Generation with Human Feedback](https://arxiv.org/abs/2504.10044), [Prompt-A-Video](https://arxiv.org/abs/2412.15156) |
 
 ## Start Here
@@ -93,14 +97,19 @@ The fastest reading path through the area:
 
 Many papers fit multiple categories. The tables below are for orientation, not strict partitioning.
 
-### By training signal
+### By reward construction and supervision
 
-| Signal type | Typical papers |
+This axis is *how the reward is built and supervised* — kept conceptually distinct from architecture (below), usage mode, and target property. Preference here is broader than Bradley-Terry (e.g. [PhyGDPO](https://arxiv.org/abs/2512.24551) uses a groupwise Plackett-Luce model).
+
+| Construction / supervision | Typical papers |
 |---|---|
-| Human preferences / MOS / expert ratings | [T2VQA](https://arxiv.org/abs/2403.11956), [VideoScore](https://arxiv.org/abs/2406.15252), [LiFT](https://arxiv.org/abs/2412.04814), [AIGV-Assessor](https://arxiv.org/abs/2411.17221), [VisionReward](https://arxiv.org/abs/2412.21059), [VideoReward](https://arxiv.org/abs/2501.13918), [MJ-VIDEO](https://arxiv.org/abs/2502.01719), [Q-Eval-100K](https://arxiv.org/abs/2503.02357), [LOVE](https://arxiv.org/abs/2505.12098), [VideoScore2](https://arxiv.org/abs/2509.22799), [TDVE-Assessor](https://arxiv.org/abs/2505.19535) |
-| Synthetic comparisons or corruption-based supervision | [Discriminator-Free DPO](https://arxiv.org/abs/2504.08542), [DenseDPO](https://arxiv.org/abs/2506.03517), [Mind the Generative Details](https://arxiv.org/abs/2601.04068), [Reg-DPO](https://arxiv.org/abs/2511.01450), [REACT](https://arxiv.org/abs/2601.04033), [PhyGDPO](https://arxiv.org/abs/2512.24551) |
-| Training-free or external critics | [InstructVideo](https://arxiv.org/abs/2312.12490), [Diffusion-DRF](https://arxiv.org/abs/2601.04153), [HuDA](https://arxiv.org/abs/2601.14037), [WMReward](https://arxiv.org/abs/2601.10553), [VIGOR](https://arxiv.org/abs/2603.16271), [PISCES](https://arxiv.org/abs/2602.01624) |
-| Hybrid pipelines | [T2V-Turbo](https://arxiv.org/abs/2405.18750), [T2V-Turbo-v2](https://arxiv.org/abs/2410.05677), [Dual-IPO](https://arxiv.org/abs/2502.02088), [UnifiedReward](https://arxiv.org/abs/2503.05236), [DanceGRPO](https://arxiv.org/abs/2505.07818), [PhysHPO](https://arxiv.org/abs/2508.10858) |
+| Human pairwise / listwise preference | [LiFT](https://arxiv.org/abs/2412.04814), [VisionReward](https://arxiv.org/abs/2412.21059), [VideoReward](https://arxiv.org/abs/2501.13918), [MJ-VIDEO](https://arxiv.org/abs/2502.01719), [TDVE-Assessor](https://arxiv.org/abs/2505.19535), [SoliReward](https://arxiv.org/abs/2512.22170) |
+| Human pointwise scores / MOS / expert ratings | [T2VQA](https://arxiv.org/abs/2403.11956), [VideoScore](https://arxiv.org/abs/2406.15252), [AIGV-Assessor](https://arxiv.org/abs/2411.17221), [Q-Eval-100K](https://arxiv.org/abs/2503.02357), [LOVE](https://arxiv.org/abs/2505.12098), [AesRM](https://arxiv.org/abs/2604.28078) |
+| AI feedback / synthetic comparisons / corruption supervision | [VideoRM](https://proceedings.neurips.cc/paper_files/paper/2024/hash/fbe2b2f74a2ece8070d8fb073717bda6-Abstract-Conference.html), [Discriminator-Free DPO](https://arxiv.org/abs/2504.08542), [DenseDPO](https://arxiv.org/abs/2506.03517), [Mind the Generative Details](https://arxiv.org/abs/2601.04068), [PhyGDPO](https://arxiv.org/abs/2512.24551), [GigaVideo-1](https://arxiv.org/abs/2506.10639) |
+| Programmatic / measurable / verifiable constraints (RLVR) | [NewtonRewards](https://arxiv.org/abs/2512.00425), [Wan-R1](https://arxiv.org/abs/2603.27866), [Video Models Can Reason with Verifiable Rewards](https://arxiv.org/abs/2605.15458), [VIGOR](https://arxiv.org/abs/2603.16271), [VGGRPO](https://arxiv.org/abs/2603.26599), [CamVerse](https://arxiv.org/abs/2512.02870), [SPATIALALIGN](https://arxiv.org/abs/2602.22745), [EVA](https://arxiv.org/abs/2603.17808) |
+| Frozen external / pretrained-model critics | [InstructVideo](https://arxiv.org/abs/2312.12490), [Diffusion-DRF](https://arxiv.org/abs/2601.04153), [HuDA](https://arxiv.org/abs/2601.14037), [WMReward](https://arxiv.org/abs/2601.10553), [Free²Guide](https://arxiv.org/abs/2411.17041), [PISCES](https://arxiv.org/abs/2602.01624) |
+| Self-supervised / generative-density / manifold-derived | [GT-SVJ](https://arxiv.org/abs/2602.05202), [Shell-LCC](https://arxiv.org/abs/2606.30248), [Proprio](https://arxiv.org/abs/2605.28230), [VideoGPA](https://arxiv.org/abs/2601.23286), [GeoFlow](https://arxiv.org/abs/2605.18365) |
+| Composite / hybrid pipelines | [T2V-Turbo](https://arxiv.org/abs/2405.18750), [T2V-Turbo-v2](https://arxiv.org/abs/2410.05677), [UnifiedReward](https://arxiv.org/abs/2503.05236), [DanceGRPO](https://arxiv.org/abs/2505.07818), [PhysHPO](https://arxiv.org/abs/2508.10858), [Seedance 1.0](https://arxiv.org/abs/2506.09113) |
 
 ### By architecture
 
@@ -108,7 +117,11 @@ Many papers fit multiple categories. The tables below are for orientation, not s
 |---|---|
 | CLIP / VLM scorer + regression or ranking head | [T2VQA](https://arxiv.org/abs/2403.11956), early [T2V-Turbo](https://arxiv.org/abs/2405.18750) reward mixtures, image-reward carryovers used in [InstructVideo](https://arxiv.org/abs/2312.12490) |
 | Specialized video encoder + regression / fusion head | [VideoScore](https://arxiv.org/abs/2406.15252), [UGVQ](https://arxiv.org/abs/2407.21408), [T2VEval](https://arxiv.org/abs/2501.08545), [CRAVE](https://arxiv.org/abs/2502.04076) |
-| MLLM / VideoLLM judge | [AIGV-Assessor](https://arxiv.org/abs/2411.17221), [Q-Eval-100K](https://arxiv.org/abs/2503.02357), [LOVE](https://arxiv.org/abs/2505.12098), [VideoReward](https://arxiv.org/abs/2501.13918), [VideoScore2](https://arxiv.org/abs/2509.22799), [VR-Thinker](https://arxiv.org/abs/2510.10518), [TDVE-Assessor](https://arxiv.org/abs/2505.19535), [UnifiedReward](https://arxiv.org/abs/2503.05236) |
+| MLLM / VideoLLM or reasoning judge | [AIGV-Assessor](https://arxiv.org/abs/2411.17221), [Q-Eval-100K](https://arxiv.org/abs/2503.02357), [LOVE](https://arxiv.org/abs/2505.12098), [VideoReward](https://arxiv.org/abs/2501.13918), [VideoScore2](https://arxiv.org/abs/2509.22799), [VR-Thinker](https://arxiv.org/abs/2510.10518), [TDVE-Assessor](https://arxiv.org/abs/2505.19535), [UnifiedReward](https://arxiv.org/abs/2503.05236) |
+| Specialist classifier / detector / anomaly model | [Seaweed-7B](https://arxiv.org/abs/2504.08685), [Waver](https://arxiv.org/abs/2508.15761), [LTX-Video](https://arxiv.org/abs/2501.00103), [Alice v1](https://arxiv.org/abs/2605.08115), [VBench-2.0](https://arxiv.org/abs/2503.21755) |
+| Programmatic / analytic metric or verifier | [NewtonRewards](https://arxiv.org/abs/2512.00425), [CamVerse](https://arxiv.org/abs/2512.02870), [VIGOR](https://arxiv.org/abs/2603.16271), [SPATIALALIGN](https://arxiv.org/abs/2602.22745), [Geo-Align](https://arxiv.org/abs/2605.23903) |
+| Frozen foundation / world / geometry / inverse-dynamics critic | [WMReward](https://arxiv.org/abs/2601.10553), [Diffusion-DRF](https://arxiv.org/abs/2601.04153), [VideoGPA](https://arxiv.org/abs/2601.23286), [EVA](https://arxiv.org/abs/2603.17808) |
+| Generative / energy / self-scoring critic | [GT-SVJ](https://arxiv.org/abs/2602.05202), [Shell-LCC](https://arxiv.org/abs/2606.30248), [Proprio](https://arxiv.org/abs/2605.28230) |
 | Structured / MoE / decomposed reward | [MJ-VIDEO](https://arxiv.org/abs/2502.01719), [VisionReward](https://arxiv.org/abs/2412.21059), [Patch-level Reward Models](https://arxiv.org/abs/2502.06812), [DenseDPO](https://arxiv.org/abs/2506.03517), [REACT](https://arxiv.org/abs/2601.04033) |
 
 ### By usage mode
@@ -119,7 +132,8 @@ Many papers fit multiple categories. The tables below are for orientation, not s
 | Reward-weighted or gradient-based finetuning | [InstructVideo](https://arxiv.org/abs/2312.12490), [T2V-Turbo](https://arxiv.org/abs/2405.18750), [Video Diffusion Alignment via Reward Gradients](https://arxiv.org/abs/2407.08737), [DanceGRPO](https://arxiv.org/abs/2505.07818), [PhysRVG](https://arxiv.org/abs/2601.11087) |
 | DPO / IPO / preference optimization | [VideoDPO](https://arxiv.org/abs/2412.14167), [OnlineVPO](https://arxiv.org/abs/2412.15159), [HuViDPO](https://arxiv.org/abs/2502.01690), [Dual-IPO](https://arxiv.org/abs/2502.02088), [DenseDPO](https://arxiv.org/abs/2506.03517), [Reg-DPO](https://arxiv.org/abs/2511.01450), [PhysCorr](https://arxiv.org/abs/2511.03997), [PhyGDPO](https://arxiv.org/abs/2512.24551) |
 | Inference-time reward guidance / search | [Flow-NRG](https://arxiv.org/abs/2501.13918), [DOLLAR](https://arxiv.org/abs/2412.15689), [WMReward](https://arxiv.org/abs/2601.10553), [VIGOR](https://arxiv.org/abs/2603.16271), [LatSearch](https://arxiv.org/abs/2603.14526), [PISCES](https://arxiv.org/abs/2602.01624), [Euphonium](https://arxiv.org/abs/2602.04928) |
-| Data filtering / pair construction / prompt evolution | [Prompt-A-Video](https://arxiv.org/abs/2412.15156), [V.I.P.](https://arxiv.org/abs/2508.03254), [Discriminator-Free DPO](https://arxiv.org/abs/2504.08542), [PhysHPO](https://arxiv.org/abs/2508.10858), [UnifiedReward](https://arxiv.org/abs/2503.05236) |
+| Verifier-guided RL / RLVR | [Wan-R1](https://arxiv.org/abs/2603.27866), [Video Models Can Reason with Verifiable Rewards](https://arxiv.org/abs/2605.15458), [NewtonRewards](https://arxiv.org/abs/2512.00425), [VGGRPO](https://arxiv.org/abs/2603.26599), [EVA](https://arxiv.org/abs/2603.17808) |
+| Data filtering / pair construction / prompt evolution | [Prompt-A-Video](https://arxiv.org/abs/2412.15156), [V.I.P.](https://arxiv.org/abs/2508.03254), [Discriminator-Free DPO](https://arxiv.org/abs/2504.08542), [PhysHPO](https://arxiv.org/abs/2508.10858), [UnifiedReward](https://arxiv.org/abs/2503.05236), [Waver](https://arxiv.org/abs/2508.15761), [Seaweed-7B](https://arxiv.org/abs/2504.08685) |
 
 ### By target property
 
@@ -208,9 +222,9 @@ Evaluator-first papers that either are used directly as reward functions or defi
 - [Comparison Drives Preference: Reference-Aware Modeling for AI-Generated Video Quality Assessment](https://arxiv.org/abs/2604.17074) *(2026)* — RefVQA; reformulates AI-generated video quality assessment as reference-graph comparison, aggregating graph-guided differences from related videos to the query.
 - [EvalVerse: Pipeline-Aware and Expert-Calibrated Benchmarking for Professional Cinematic Video Generation](https://arxiv.org/abs/2605.23271) *(2026)* — Fine-tunes a cinematic video judge from expert-calibrated pairwise preferences over a filmmaking-workflow taxonomy (multi-shot composition, cinematography, motion, audio-visual production).
 
-## Preference Optimization and Post-Training
+## Reward-Guided Optimization and Post-Training
 
-Papers whose main contribution is using reward or preference signals to align a video generator.
+Papers whose main contribution is using reward, preference, or verifier signals to align a video generator — via reward-weighted or gradient-based finetuning, data filtering and curation, or direct preference optimization (DPO/IPO/GRPO).
 
 ### Reward-weighted or gradient-based finetuning
 
@@ -230,10 +244,15 @@ Papers whose main contribution is using reward or preference signals to align a 
 - [SHIFT: Motion Alignment in Video Diffusion Models with Adversarial Hybrid Fine-Tuning](https://arxiv.org/abs/2603.17426) *(2026)* — Pixel-flux motion rewards drive an advantage-weighted fine-tuning that unifies supervised and reward objectives, using adversarial advantages to curb reward hacking.
 - [Reward Lightning: Fast Video Generation via Homologous Preference Distillation](https://arxiv.org/abs/2607.03960) *(2026)* — Latent-space reward model shares its backbone with adversarial distillation to align and accelerate a few-step video generator jointly.
 - [HunyuanVideo 1.5 Technical Report](https://arxiv.org/abs/2511.18870) *(2025)* — Post-training trains its own VLM-based video reward model scoring text alignment, image alignment, visual quality, and motion, then applies online RL (plus DPO for text-to-video).
-- [Waver: Wave Your Way to Lifelike Video Generation](https://arxiv.org/abs/2508.15761) *(2025)* — SFTs a VideoLLaMA3 quality model predicting an overall label plus 13 defect dimensions, used to filter the generator's training corpus.
-- [Seaweed-7B: Cost-Effective Training of Video Generation Foundation Model](https://arxiv.org/abs/2504.08685) *(2025)* — Trains a visual-quality and artifact-classifier model for data filtering, plus Video-DPO on annotator best/worst picks from four generations per prompt.
-- [LTX-Video: Realtime Video Latent Diffusion](https://arxiv.org/abs/2501.00103) *(2025)* — Trains a Siamese aesthetic ranker on human-tagged pairs and uses its scores to filter low-aesthetic clips from the video and image training corpus.
 - [MagicPrompt: Ultra-Lightweight Prompt Tuning for Video Generation](https://arxiv.org/abs/2607.14595) *(2026)* — Reward-guided soft-prompt tuning driven by a dual-space reward: a pixel reward mixing HPS with an optical-flow motion-consistency score, plus a CFG-vs-unconditional latent regularizer.
+
+### Data filtering, curation, and hard-example mining
+
+Quality, artifact, or defect models whose primary role is filtering, curating, or mining the generator's training data — the reward signal shapes the *data*, not the gradient.
+
+- [LTX-Video: Realtime Video Latent Diffusion](https://arxiv.org/abs/2501.00103) *(2025)* — Trains a Siamese aesthetic ranker on human-tagged pairs and uses its scores to filter low-aesthetic clips from the video and image training corpus.
+- [Seaweed-7B: Cost-Effective Training of Video Generation Foundation Model](https://arxiv.org/abs/2504.08685) *(2025)* — Trains a visual-quality and artifact-classifier model for data filtering, plus Video-DPO on annotator best/worst picks from four generations per prompt.
+- [Waver: Wave Your Way to Lifelike Video Generation](https://arxiv.org/abs/2508.15761) *(2025)* — SFTs a VideoLLaMA3 quality model predicting an overall label plus 13 defect dimensions, used to filter the generator's training corpus.
 
 ### DPO / IPO / GRPO and related preference optimization
 
@@ -310,6 +329,7 @@ Reward papers where “better” means more physically or geometrically consiste
 - [PISA Experiments: Exploring Physics Post-Training for Video Diffusion Models by Watching Stuff Drop](https://arxiv.org/abs/2503.09595) *(2025)* — Free-fall as a controlled testbed for physics-aware reward design.
 - [WorldModelBench: Judging Video Generation Models As World Models](https://arxiv.org/abs/2502.20694) *(2025)* — Physics-adherence and instruction-following benchmark that also fine-tunes a reusable learned judge whose rewards improve world-modeling generators.
 - [Do Joint Audio-Video Generation Models Understand Physics?](https://arxiv.org/abs/2605.07061) *(2026)* — AV-Phys Bench; probes visual, audio, and cross-modal physical commonsense of joint audio-video generators across steady-state, transition, and adversarial prompts.
+- [Apple-π: Benchmarking Thinking with Video Towards Law-Grounded Physical Intelligence](https://arxiv.org/abs/2607.16401) *(2026)* — Diagnostic benchmark scoring not just output plausibility but the Perception-Formulation-Deduction reasoning behind it, via physics-law objective measures plus MLLM subjective scoring.
 
 ### Physics-aware optimization
 
@@ -485,6 +505,7 @@ These are especially useful for checking whether a reward model is merely in-dom
 
 ### Adjacent collections
 
+- [Awesome RL for Video Generation](https://github.com/chrisliu298/awesome-rl-for-video-generation) — sibling list: RL, preference optimization, and alignment methods for video generation
 - [Awesome RL for Video Generation](https://github.com/wendell0218/Awesome-RL-for-Video-Generation)
 - [Awesome Evaluation of Visual Generation](https://github.com/ziqihuangg/Awesome-Evaluation-of-Visual-Generation)
 - [T2V-Review](https://github.com/synlp/T2V-Review)
@@ -511,4 +532,4 @@ Contributions welcome! Please open a PR if you know of papers, datasets, benchma
 
 ---
 
-*Repository last updated: 2026-07-21. Literature systematically searched through April 2026; later papers added opportunistically. Coverage: core video reward model papers, foundations, preference optimization, physics and world rewards, datasets, benchmarks, and tooling.*
+*Repository last updated: 2026-07-22. Literature systematically searched through April 2026; later papers added opportunistically. Coverage: core video reward model papers, foundations, preference optimization, verifiable / rule-based and non-learned reward signals, physics and world rewards, data curation and filtering, datasets, benchmarks, and tooling.*
