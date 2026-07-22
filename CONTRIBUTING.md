@@ -6,14 +6,17 @@ Contributions welcome! Open a PR to add papers, datasets, benchmarks, or tools r
 
 A resource must pass **one** of these two tests:
 
-1. **The work defines, trains, or applies a reward model, preference model, judge model, or verifier specifically for video generation.** This includes learned reward models, VideoLLM judges, preference scoring systems, and verifier-style critics whose output is used to train, rank, filter, or improve a video generator.
+1. **The work defines, trains, or substantively applies a video-generation reward signal** — a learned, frozen, programmatic, or self-supervised model, metric, reward/preference model, judge, critic, or verifier whose output (a score, label, constraint, or verification outcome) is used to train, rank, filter, search, steer, or improve a video generator.
 2. **The work directly enables video reward model deployment.** Benchmarks, evaluation suites, preference datasets, and tooling that make video reward modeling practical.
+
+The reward signal need not be a separately trained scalar reward model. In scope, all first-class: **pairwise/listwise preference (Bradley-Terry and beyond), pointwise regression / MOS, classification / defect detection (incl. data-filtering quality models), verifiable / rule-based / measurable rewards (RLVR), frozen or training-free critics, and energy-based / generative / self-supervised judges.** An **implicit** preference objective (e.g. DPO/IPO, which trains no separate reward model) and a **model-assisted measurable** reward (optical flow, pose, depth, inverse dynamics) both qualify.
 
 ### What does NOT qualify
 
 - **Generic video QA.** Video question-answering or captioning not tied to generation quality assessment.
 - **Image-only reward models** unless they are direct conceptual foundations for video reward modeling (e.g., ImageReward, HPS v2).
 - **Pure generation methods** without a substantive reward or preference component. A paper that uses a reward model incidentally (e.g., a single Best-of-N line in the appendix) does not qualify.
+- **RL with only generic or incidental rewards.** Plain RL whose reward is not a substantive, video-specific design does not qualify — **but a video-specific programmatic, measurable, or verifiable reward (RLVR) is in scope**, even with no learned reward model. "Reward-model-free" is not a rejection reason; "no substantive video-derived reward signal" is.
 - **Domain-specific applications** need a transferable methodological contribution beyond the domain. A paper that applies an existing reward model to a new dataset without methodological innovation does not clear the bar.
 
 ### When in doubt
