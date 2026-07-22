@@ -246,6 +246,7 @@ Papers whose main contribution is using reward, preference, or verifier signals 
 - [Reward Lightning: Fast Video Generation via Homologous Preference Distillation](https://arxiv.org/abs/2607.03960) *(2026)* — Latent-space reward model shares its backbone with adversarial distillation to align and accelerate a few-step video generator jointly.
 - [HunyuanVideo 1.5 Technical Report](https://arxiv.org/abs/2511.18870) *(2025)* — Post-training trains its own VLM-based video reward model scoring text alignment, image alignment, visual quality, and motion, then applies online RL (plus DPO for text-to-video).
 - [MagicPrompt: Ultra-Lightweight Prompt Tuning for Video Generation](https://arxiv.org/abs/2607.14595) *(2026)* — Reward-guided soft-prompt tuning driven by a dual-space reward: a pixel reward mixing HPS with an optical-flow motion-consistency score, plus a CFG-vs-unconditional latent regularizer.
+- [Data-regularized Reinforcement Learning for Diffusion Models at Scale](https://arxiv.org/abs/2512.04332) *(2025)* — DDRL; combines external video-reward maximization with off-policy forward-KL data regularization to scale diffusion RL (e.g. Cosmos) while limiting reward hacking and distribution drift.
 
 ### Data filtering, curation, and hard-example mining
 
@@ -283,6 +284,7 @@ Quality, artifact, or defect models whose primary role is filtering, curating, o
 - [Diffusion-APO: Trajectory-Aware Direct Preference Alignment for Video Diffusion Transformers](https://arxiv.org/abs/2605.07503) *(2026)* — Trajectory-aware DPO that builds preference pairs online from a pairwise video-ranking oracle during alignment.
 - [RealDPO: Real or Not Real, that is the Preference](https://arxiv.org/abs/2510.14955) *(2025)* — Reward-model-free DPO using real-action clips as chosen and model generations as rejected, with a tailored loss and the RealAction-5K dataset.
 - [Diverse Video Generation with Determinantal Point Process-Guided Policy Optimization](https://arxiv.org/abs/2511.20647) *(2025)* — DPP-GRPO; a determinantal-point-process set-level reward scores a sampled group jointly, optimizing generated videos for diversity alongside quality.
+- [DreaMontage: Arbitrary Frame-Guided One-Shot Video Generation](https://arxiv.org/abs/2512.21252) *(2025)* — Trains a VLM abrupt-cut discriminator on ~10K clips and combines its rankings with human motion preferences to build pairs for a tailored video DPO stage.
 
 ## Localized, Structured, and Reasoning-Based Rewards
 
@@ -376,6 +378,7 @@ Reward models are still sparse outside generic T2V. These papers are especially 
 - [Identity-GRPO: Optimizing Multi-Human Identity-preserving Video Generation via Reinforcement Learning](https://arxiv.org/abs/2510.14256) *(2025)* — Identity-aware reward model and GRPO for multi-person videos.
 - [HuViDPO: Enhancing Video Generation through Direct Preference Optimization for Human-Centric Alignment](https://arxiv.org/abs/2502.01690) *(2025)* — Human-centric alignment setting.
 - [ID-Crafter: VLM-Grounded Online RL for Compositional Multi-Subject Video Generation](https://arxiv.org/abs/2511.00511) *(2025)* — Composite reward over instruction fulfillment, visual quality, and multi-subject identity preservation drives online RL for compositional multi-subject generation.
+- [DreamVideo-Omni: Omni-Motion Controlled Multi-Subject Video Customization with Latent Identity Reinforcement Learning](https://arxiv.org/abs/2603.12257) *(2026)* — Trains a latent-space identity reward model from ~27.5K human comparisons and uses it for RL alignment of multi-subject video customization under complex motion control.
 
 ### Camera control
 
@@ -394,6 +397,7 @@ Reward models are still sparse outside generic T2V. These papers are especially 
 - [Hallo-Live: Real-Time Streaming Joint Audio-Video Avatar Generation with Asynchronous Dual-Stream and Human-Centric Preference Distillation](https://arxiv.org/abs/2604.23632) *(2026)* — Reward-reweighted distribution-matching distillation (HP-DMD) that tilts a streaming audio-video avatar generator toward human-preferred fidelity and synchronization.
 - [AniMatrix: An Anime Video Generation Model that Thinks in Art, Not Physics](https://arxiv.org/abs/2605.03652) *(2026)* — Deformation-aware preference optimization with an anime-specific reward model that separates intentional artistry from pathological collapse.
 - [LongCat-Video-Avatar 1.5 Technical Report](https://arxiv.org/abs/2605.26486) *(2026)* — Extends LongCat's multi-reward GRPO with per-frame and temporal-partitioned rewards that localize motion inconsistency, hand deformation, and structural collapse in avatar generation.
+- [FlowPortrait: Reinforcement Learning for Audio-Driven Portrait Video Generation](https://arxiv.org/abs/2603.00159) *(2026)* — Combines a multi-agent MLLM portrait judge (lip-sync, expressiveness, motion) with LPIPS and RAFT regularizers as the GRPO reward, with an explicit study of shortcut exploitation and reward hacking.
 
 ## Inference-Time Reward, Search, and Process Rewards
 
